@@ -1,0 +1,88 @@
+# Default configuration for the Augle AI assessment pipeline.
+# Every key maps 1:1 to a dataclass field in augle/config.py (unknown keys are rejected).
+
+collection:
+  source: wikimedia_commons
+  base_url: https://commons.wikimedia.org
+  queries:
+    - industrial robot arm
+    - KUKA industrial robot
+    - FANUC robot
+    - ABB industrial robot
+    - robotic arm welding
+    - articulated robot manipulator
+    - SCARA robot
+    - robot gripper end effector
+  target_images: 220          # over-collect: some images get no detections and are dropped
+  results_per_page: 50
+  max_pages_per_query: 6
+  min_long_side: 1024         # "high resolution" gate (pixels)
+  min_short_side: 600
+  max_file_bytes: 15000000
+  max_stored_side: 2048       # stored JPEGs are down-scaled to this (never upscaled)
+  jpeg_quality: 95
+  allowed_license_prefixes: ["CC BY ", "CC BY-SA", "CC0", "Public domain", "PD"]
+  denied_license_substrings: ["-NC", "-ND"]   # never accept non-commercial / no-derivatives variants
+  dedupe_hamming: 4
+  request_delay_s: 1.0        # be polite to the source
+  max_retries: 3
+  headless: true
+  out_dir: data/raw
+
+annotation:
+  detector_model: IDEA-Research/grounding-dino-tiny
+  categories:                 # category name -> text prompts given to Grounding DINO
+    robot_arm: ["industrial robot arm", "robotic arm"]
+    gripper: ["robot gripper", "end effector"]
+  box_threshold: 0.30
+  text_threshold: 0.25
+  nms_iou: 0.5
+  min_box_area_frac: 0.002
+  max_box_area_frac: 0.98
+  max_detections_per_category: 8
+  polygon_epsilon_px: 0.3       # polygon simplification tolerance (measured IoU vs mask: 0.999)
+  use_sam: true
+  sam_model: facebook/sam-vit-base
+  drop_images_without_detections: true
+  device: auto
+  cache_dir: data/annotations/cache
+  output_json: data/annotations/instances.json
+
+data:
+  image_size: 320
+  split_fractions: [0.7, 0.15, 0.15]
+  split_seed: 42
+  rotation_deg: 10.0
+  scale_range: [0.8, 1.2]
+  translate_frac: 0.1
+  shear_deg: 5.0
+  hflip_p: 0.5
+  vflip_p: 0.0
+  brightness: 0.2
+  contrast: 0.2
+  refine_boxes_with_masks: true
+
+train:
+  epochs: 60
+  batch_size: 8
+  lr: 0.002
+  weight_decay: 0.0001
+  warmup_epochs: 3
+  patience: 12
+  monitor: val_loss           # val_loss (min) | val_ap50 (max) | val_ap (max)
+  seed: 42
+  num_workers: 0
+  device: auto
+  base_width: 32
+  output_dir: artifacts/run
+  tracker: tensorboard        # tensorboard | wandb | none
+
+audit:
+  index_dir: artifacts/audit_index
+  store: numpy                # numpy | chroma
+  embedder: hashing
+  top_k: 6
+  max_tool_iterations: 5
+  small_abs_area_px: 1024
+  small_norm_area: 0.001
+  min_side_px: 8

@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "run_id": "smoke_run",
+  "created_utc": "2026-10-13T17:18:17+00:00",
+  "task": "single-stage anchor-free object detection (CenterNet-style: heatmap + wh + offset heads)",
+  "metric_notes": "AP is COCO-style (101-point) in the letterboxed network-input frame. Labels are zero-shot pseudo-labels, so AP measures agreement with Grounding DINO/SAM output, not human ground truth.",
+  "config": {
+    "collection": {
+      "source": "wikimedia_commons",
+      "base_url": "https://commons.wikimedia.org",
+      "queries": [
+        "industrial robot arm",
+        "KUKA industrial robot",
+        "FANUC robot",
+        "ABB industrial robot",
+        "robotic arm welding",
+        "articulated robot manipulator",
+        "SCARA robot",
+        "robot gripper end effector"
+      ],
+      "target_images": 220,
+      "results_per_page": 50,
+      "max_pages_per_query": 6,
+      "min_long_side": 1024,
+      "min_short_side": 600,
+      "max_file_bytes": 15000000,
+      "max_stored_side": 2048,
+      "jpeg_quality": 95,
+      "allowed_mime": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "allowed_license_prefixes": [
+        "CC BY ",
+        "CC BY-SA",
+        "CC0",
+        "Public domain",
+        "PD"
+      ],
+      "denied_license_substrings": [
+        "-NC",
+        "-ND"
+      ],
+      "dedupe_hamming": 4,
+      "request_delay_s": 1.0,
+      "page_timeout_ms": 30000,
+      "max_retries": 3,
+      "headless": true,
+      "out_dir": "data/raw"
+    },
+    "annotation": {
+      "detector_model": "IDEA-Research/grounding-dino-tiny",
+      "categories": {
+        "robot_arm": [
+          "industrial robot arm",
+          "robotic arm"
+        ],
+        "gripper": [
+          "robot gripper",
+          "end effector"
+        ]
+      },
+      "box_threshold": 0.3,
+      "text_threshold": 0.25,
+      "nms_iou": 0.5,
+      "min_box_area_frac": 0.002,
+      "max_box_area_frac": 0.98,
+      "max_detections_per_category": 8,
+      "use_sam": true,
+      "sam_model": "facebook/sam-vit-base",
+      "min_polygon_area_px": 16.0,
+      "polygon_epsilon_px": 0.3,
+      "drop_images_without_detections": true,
+      "device": "auto",
+      "cache_dir": "data/annotations/cache",
+      "output_json": "data/annotations/instances.json"
+    },
+    "data": {
+      "image_size": 128,
+      "split_fractions": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "split_seed": 42,
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ],
+      "rotation_deg": 10.0,
+      "scale_range": [
+        0.8,
+        1.2
+      ],
+      "translate_frac": 0.1,
+      "shear_deg": 5.0,
+      "hflip_p": 0.5,
+      "vflip_p": 0.0,
+      "brightness": 0.2,
+      "contrast": 0.2,
+      "min_box_side_px": 2.0,
+      "min_visibility": 0.3,
+      "refine_boxes_with_masks": true,
+      "load_masks": true
+    },
+    "train": {
+      "epochs": 10,
+      "batch_size": 8,
+      "lr": 0.002,
+      "weight_decay": 0.0001,
+      "warmup_epochs": 3,
+      "grad_clip": 10.0,
+      "patience": 12,
+      "min_delta": 0.001,
+      "monitor": "val_loss",
+      "seed": 42,
+      "num_workers": 0,
+      "device": "auto",
+      "base_width": 32,
+      "num_log_images": 4,
+      "score_threshold": 0.05,
+      "max_detections": 50,
+      "output_dir": "artifacts/smoke_run",
+      "tracker": "tensorboard"
+    },
+    "audit": {
+      "index_dir": "artifacts/audit_index",
+      "store": "numpy",
+      "embedder": "hashing",
+      "hashing_dim": 1024,
+      "top_k": 6,
+      "max_tool_iterations": 5,
+      "small_abs_area_px": 1024,
+      "small_norm_area": 0.001,
+      "min_side_px": 8,
+      "max_examples": 10
+    }
+  },
+  "normalisation": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "environment": {
+    "python": "3.12.6",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.3",
+    "cv2": "4.13.0",
+    "device": "cpu"
+  },
+  "model": {
+    "name": "AugleNet",
+    "trainable_parameters": 4008646,
+    "classes": [
+      "robot_arm",
+      "gripper"
+    ]
+  },
+  "dataset": {
+    "coco_path": "data/synthetic/instances.json",
+    "coco_sha256": "2f158946f29d40750848b6c454276e3a7d7525ee505f153bcae884b2ee7fa589",
+    "num_images": 30,
+    "num_annotations": 89,
+    "split_sizes": {
+      "train": 22,
+      "val": 4,
+      "test": 4
+    },
+    "split_seed": 42
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "lr": 0.0002,
+      "train_loss": 3.499280951239846,
+      "train_hm_loss": 2.580792036923495,
+      "train_wh_loss": 5.347364208915017,
+      "train_off_loss": 0.3837524381550876,
+      "grad_norm": 5.610030968983968,
+      "val_loss": 3.602529764175415,
+      "val_hm_loss": 2.6484222412109375,
+      "val_wh_loss": 5.6108598709106445,
+      "val_off_loss": 0.3930215835571289,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9737327098846436,
+      "is_best": true
+    },
+    {
+      "epoch": 2,
+      "lr": 0.0007999999999999999,
+      "train_loss": 3.334760839288885,
+      "train_hm_loss": 2.4559327255595815,
+      "train_wh_loss": 5.514214298941872,
+      "train_off_loss": 0.3274066543037241,
+      "grad_norm": 4.88298495610555,
+      "val_loss": 3.579747200012207,
+      "val_hm_loss": 2.6169235706329346,
+      "val_wh_loss": 5.6292195320129395,
+      "val_off_loss": 0.3999015688896179,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9230468273162842,
+      "is_best": true
+    },
+    {
+      "epoch": 3,
+      "lr": 0.0013999999999999998,
+      "train_loss": 2.967747384851629,
+      "train_hm_loss": 2.1750019897114146,
+      "train_wh_loss": 4.91330133784901,
+      "train_off_loss": 0.3014153133739125,
+      "grad_norm": 5.073967297871907,
+      "val_loss": 3.5307483673095703,
+      "val_hm_loss": 2.5710158348083496,
+      "val_wh_loss": 5.64317512512207,
+      "val_off_loss": 0.39541515707969666,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9988546371459961,
+      "is_best": true
+    },
+    {
+      "epoch": 4,
+      "lr": 0.002,
+      "train_loss": 2.62812818180431,
+      "train_hm_loss": 1.9139983545650134,
+      "train_wh_loss": 4.299411730332808,
+      "train_off_loss": 0.2841886200688102,
+      "grad_norm": 5.212496121724446,
+      "val_loss": 3.387073516845703,
+      "val_hm_loss": 2.4897446632385254,
+      "val_wh_loss": 5.510006904602051,
+      "val_off_loss": 0.3463281989097595,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9931654930114746,
+      "is_best": true
+    },
+    {
+      "epoch": 5,
+      "lr": 0.001901959179223395,
+      "train_loss": 2.3950913602655586,
+      "train_hm_loss": 1.7570676803588867,
+      "train_wh_loss": 3.937944672324441,
+      "train_off_loss": 0.2442292489788749,
+      "grad_norm": 6.524168888727824,
+      "val_loss": 3.253920316696167,
+      "val_hm_loss": 2.3885843753814697,
+      "val_wh_loss": 5.329158782958984,
+      "val_off_loss": 0.3324201703071594,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9988255500793457,
+      "is_best": true
+    },
+    {
+      "epoch": 6,
+      "lr": 0.0016272549038401462,
+      "train_loss": 2.1953973553397437,
+      "train_hm_loss": 1.6013080206784336,
+      "train_wh_loss": 3.4209946502338755,
+      "train_off_loss": 0.25198986584489996,
+      "grad_norm": 4.74462644259135,
+      "val_loss": 3.183116912841797,
+      "val_hm_loss": 2.3130342960357666,
+      "val_wh_loss": 5.283647060394287,
+      "val_off_loss": 0.34171807765960693,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9894514083862305,
+      "is_best": true
+    },
+    {
+      "epoch": 7,
+      "lr": 0.0012302957246167513,
+      "train_loss": 2.122955473986539,
+      "train_hm_loss": 1.5087903954766013,
+      "train_wh_loss": 3.3589090650731865,
+      "train_off_loss": 0.27827418663285,
+      "grad_norm": 5.109091122945149,
+      "val_loss": 3.101541757583618,
+      "val_hm_loss": 2.2449159622192383,
+      "val_wh_loss": 5.179103851318359,
+      "val_off_loss": 0.3387153744697571,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 1.1478822231292725,
+      "is_best": true
+    },
+    {
+      "epoch": 8,
+      "lr": 0.0007897042753832489,
+      "train_loss": 2.030640385367654,
+      "train_hm_loss": 1.4826224933971057,
+      "train_wh_loss": 2.9241504669189453,
+      "train_off_loss": 0.2556028501553969,
+      "grad_norm": 5.501598993937175,
+      "val_loss": 2.9256107807159424,
+      "val_hm_loss": 2.105205535888672,
+      "val_wh_loss": 4.976851463317871,
+      "val_off_loss": 0.32272011041641235,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 1.0716352462768555,
+      "is_best": true
+    },
+    {
+      "epoch": 9,
+      "lr": 0.00039274509615985385,
+      "train_loss": 1.8737366199493408,
+      "train_hm_loss": 1.3798946250568738,
+      "train_wh_loss": 2.441169933839278,
+      "train_off_loss": 0.2497250275178389,
+      "grad_norm": 4.150520483652751,
+      "val_loss": 2.783799409866333,
+      "val_hm_loss": 1.985641598701477,
+      "val_wh_loss": 4.8176469802856445,
+      "val_off_loss": 0.3163931965827942,
+      "val_ap50": 0.08415841584158416,
+      "val_ap": 0.008415841584158416,
+      "val_ap50_per_class": {
+        "robot_arm": 0.16831683168316833,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 1.0023744106292725,
+      "is_best": true
+    },
+    {
+      "epoch": 10,
+      "lr": 0.00011804082077660514,
+      "train_loss": 1.7991812879388982,
+      "train_hm_loss": 1.3358134464784102,
+      "train_wh_loss": 2.434950893575495,
+      "train_off_loss": 0.2198727225715464,
+      "grad_norm": 4.781797885894775,
+      "val_loss": 2.6949384212493896,
+      "val_hm_loss": 1.905009150505066,
+      "val_wh_loss": 4.691962242126465,
+      "val_off_loss": 0.3207330107688904,
+      "val_ap50": 0.08415841584158416,
+      "val_ap": 0.008415841584158416,
+      "val_ap50_per_class": {
+        "robot_arm": 0.16831683168316833,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 1.0405678749084473,
+      "is_best": true
+    }
+  ],
+  "best": {
+    "epoch": 10,
+    "monitor": "val_loss",
+    "mode": "min",
+    "value": 2.6949384212493896,
+    "checkpoint": "best.pt"
+  },
+  "early_stopping": {
+    "enabled": true,
+    "patience": 12,
+    "min_delta": 0.001,
+    "triggered": false,
+    "stopped_epoch": null
+  },
+  "epochs_requested": 10,
+  "epochs_completed": 10,
+  "test": {
+    "loss": 2.3828063011169434,
+    "hm": 1.6749420166015625,
+    "wh": 3.859475612640381,
+    "off": 0.3219168484210968,
+    "ap50": 0.02805280528052805,
+    "ap": 0.002805280528052805,
+    "per_class_ap50": {
+      "robot_arm": 0.0,
+      "gripper": 0.0561056105610561
+    }
+  }
+}

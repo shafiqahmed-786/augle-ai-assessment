@@ -1,0 +1,3 @@
+# Optional packages (each verified in the development environment).
+chromadb==1.5.9   # llm_auditor.py --store chroma
+wandb==0.30.0     # train.py --tracker wandb   (verified in WANDB_MODE=offline)

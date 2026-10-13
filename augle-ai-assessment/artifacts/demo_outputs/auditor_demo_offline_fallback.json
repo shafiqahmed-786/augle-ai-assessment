@@ -1,0 +1,688 @@
+[
+  {
+    "question": "Are there suspiciously small bounding boxes in this dataset? Report the counts, thresholds, and examples.",
+    "answer": "[OFFLINE FALLBACK MODE - no LLM was called. Tools were selected by keyword rules and the Python tools really executed; the text below is templated, not model reasoning.]\n\n## Computed facts (deterministic tool outputs)\n- Thresholds: area < 1024.0 px^2, normalised area < 0.001, min side < 8.0 px.\n- 44 of 89 boxes flagged (49.4%); by criterion: {\"area_px_below_threshold\": 44, \"normalized_area_below_threshold\": 0, \"min_side_below_threshold\": 6}.\n- Invalid geometry: {\"non_positive_size\": 0, \"non_finite\": 0, \"out_of_bounds\": 0, \"unknown_image\": 0}.\n  - ann 6 (image 2, images/synthetic0001.jpg, gripper): bbox [0.0, 97.0, 5.0, 15.0], area 75.0 px^2, 0.2093% of image, flags ['area_px_below_threshold', 'min_side_below_threshold']\n  - ann 8 (image 3, images/synthetic0002.jpg, gripper): bbox [0.0, 88.0, 5.0, 16.0], area 80.0 px^2, 0.2232% of image, flags ['area_px_below_threshold', 'min_side_below_threshold']\n  - ann 69 (image 23, images/synthetic0022.jpg, gripper): bbox [0.0, 55.0, 5.0, 16.0], area 80.0 px^2, 0.2232% of image, flags ['area_px_below_threshold', 'min_side_below_threshold']\n  - ann 75 (image 25, images/synthetic0024.jpg, gripper): bbox [92.0, 0.0, 16.0, 5.0], area 80.0 px^2, 0.2232% of image, flags ['area_px_below_threshold', 'min_side_below_threshold']\n  - ann 71 (image 24, images/synthetic0023.jpg, gripper): bbox [154.0, 156.0, 6.0, 18.0], area 108.0 px^2, 0.3013% of image, flags ['area_px_below_threshold', 'min_side_below_threshold']\n\n## Retrieved evidence\n- [dataset:bbox_areas] (score 0.13): Bounding-box area statistics over 89 annotations. Area in px^2 distribution: {\"p0\": 75.0, \"p5\": 109.6, \"p25\": 240.0, \"p50\": 1273.0, \"p75\": 3172.0, \"p95\": 5023.2\n- [image:1] (score 0.10): Image 1 file images/synthetic0000.jpg size 224x160 px, licence CC0 (synthetic), author \"procedural generator\". 2 annotation(s): ann 1: robot_arm bbox[x,y,w,h]=[\n- [image:27] (score 0.10): Image 27 file images/synthetic0026.jpg size 224x160 px, licence CC0 (synthetic), author \"procedural generator\". 2 annotation(s): ann 80: robot_arm bbox[x,y,w,h]\n- [image:29] (score 0.09): Image 29 file images/synthetic0028.jpg size 224x160 px, licence CC0 (synthetic), author \"procedural generator\". 4 annotation(s): ann 84: robot_arm bbox[x,y,w,h]\n- [dataset:small_boxes] (score 0.09): Suspiciously small bounding boxes flagged at ingest (smallest first): ann 6 image 2 (images/synthetic0001.jpg) gripper bbox [0.0, 97.0, 5.0, 15.0] area 75.0 px^\n\n## Interpretation (rule-based text, not LLM reasoning)\n- Flagged boxes can be genuine small parts or label noise; the listed examples should be inspected visually. Thresholds are configurable tool arguments.",
+    "mode": "offline-fallback",
+    "provider": "offline-fallback",
+    "model": "none (rule-based)",
+    "stop_reason": "answered",
+    "iterations": 2,
+    "tool_trace": [
+      {
+        "name": "analyze_bbox_areas",
+        "arguments": {},
+        "ok": true,
+        "error": null,
+        "duration_ms": 1.753399999870453,
+        "result": {
+          "thresholds_used": {
+            "abs_area_threshold_px": 1024.0,
+            "norm_area_threshold": 0.001,
+            "min_side_px": 8.0
+          },
+          "annotations_analyzed": 89,
+          "suspiciously_small_count": 44,
+          "suspiciously_small_fraction": 0.4943820224719101,
+          "count_by_criterion": {
+            "area_px_below_threshold": 44,
+            "normalized_area_below_threshold": 0,
+            "min_side_below_threshold": 6
+          },
+          "invalid_geometry": {
+            "non_positive_size": {
+              "count": 0,
+              "annotation_ids": []
+            },
+            "non_finite": {
+              "count": 0,
+              "annotation_ids": []
+            },
+            "out_of_bounds": {
+              "count": 0,
+              "annotation_ids": []
+            },
+            "unknown_image": {
+              "count": 0,
+              "annotation_ids": []
+            }
+          },
+          "area_px_distribution": {
+            "p0": 75.0,
+            "p5": 109.6,
+            "p25": 240.0,
+            "p50": 1273.0,
+            "p75": 3172.0,
+            "p95": 5023.2,
+            "p100": 6656.0,
+            "mean": 1885.6516853932585
+          },
+          "normalized_area_distribution": {
+            "p0": 0.0020926339285714285,
+            "p5": 0.0030580357142857145,
+            "p25": 0.006696428571428571,
+            "p50": 0.035518973214285716,
+            "p75": 0.08850446428571429,
+            "p95": 0.14015625,
+            "p100": 0.18571428571428572,
+            "mean": 0.05261304925762441
+          },
+          "per_category": {
+            "robot_arm": {
+              "annotations": 45,
+              "suspiciously_small": 0,
+              "median_normalized_area": 0.08850446428571429
+            },
+            "gripper": {
+              "annotations": 44,
+              "suspiciously_small": 44,
+              "median_normalized_area": 0.006696428571428571
+            }
+          },
+          "smallest_examples": [
+            {
+              "annotation_id": 6,
+              "image_id": 2,
+              "file_name": "images/synthetic0001.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                0.0,
+                97.0,
+                5.0,
+                15.0
+              ],
+              "area_px": 75.0,
+              "normalized_area": 0.002093,
+              "min_side_px": 5.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 8,
+              "image_id": 3,
+              "file_name": "images/synthetic0002.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                0.0,
+                88.0,
+                5.0,
+                16.0
+              ],
+              "area_px": 80.0,
+              "normalized_area": 0.002232,
+              "min_side_px": 5.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 69,
+              "image_id": 23,
+              "file_name": "images/synthetic0022.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                0.0,
+                55.0,
+                5.0,
+                16.0
+              ],
+              "area_px": 80.0,
+              "normalized_area": 0.002232,
+              "min_side_px": 5.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 75,
+              "image_id": 25,
+              "file_name": "images/synthetic0024.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                92.0,
+                0.0,
+                16.0,
+                5.0
+              ],
+              "area_px": 80.0,
+              "normalized_area": 0.002232,
+              "min_side_px": 5.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 71,
+              "image_id": 24,
+              "file_name": "images/synthetic0023.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                154.0,
+                156.0,
+                6.0,
+                18.0
+              ],
+              "area_px": 108.0,
+              "normalized_area": 0.003013,
+              "min_side_px": 6.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 37,
+              "image_id": 12,
+              "file_name": "images/synthetic0011.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                153.0,
+                96.0,
+                7.0,
+                16.0
+              ],
+              "area_px": 112.0,
+              "normalized_area": 0.003125,
+              "min_side_px": 7.0,
+              "flags": [
+                "area_px_below_threshold",
+                "min_side_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 59,
+              "image_id": 20,
+              "file_name": "images/synthetic0019.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                150.0,
+                83.0,
+                10.0,
+                15.0
+              ],
+              "area_px": 150.0,
+              "normalized_area": 0.004185,
+              "min_side_px": 10.0,
+              "flags": [
+                "area_px_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 29,
+              "image_id": 10,
+              "file_name": "images/synthetic0009.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                0.0,
+                48.0,
+                11.0,
+                18.0
+              ],
+              "area_px": 198.0,
+              "normalized_area": 0.005525,
+              "min_side_px": 11.0,
+              "flags": [
+                "area_px_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 15,
+              "image_id": 6,
+              "file_name": "images/synthetic0005.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                88.0,
+                77.0,
+                15.0,
+                15.0
+              ],
+              "area_px": 225.0,
+              "normalized_area": 0.006278,
+              "min_side_px": 15.0,
+              "flags": [
+                "area_px_below_threshold"
+              ]
+            },
+            {
+              "annotation_id": 39,
+              "image_id": 13,
+              "file_name": "images/synthetic0012.jpg",
+              "category": "gripper",
+              "bbox_xywh": [
+                185.0,
+                46.0,
+                15.0,
+                15.0
+              ],
+              "area_px": 225.0,
+              "normalized_area": 0.006278,
+              "min_side_px": 15.0,
+              "flags": [
+                "area_px_below_threshold"
+              ]
+            }
+          ],
+          "examples_shown": 10
+        }
+      }
+    ],
+    "retrieved": [
+      {
+        "chunk_id": "dataset:bbox_areas",
+        "score": 0.12921994924545288,
+        "kind": "bbox_areas"
+      },
+      {
+        "chunk_id": "image:1",
+        "score": 0.10385166853666306,
+        "kind": "image"
+      },
+      {
+        "chunk_id": "image:27",
+        "score": 0.09612222015857697,
+        "kind": "image"
+      },
+      {
+        "chunk_id": "image:29",
+        "score": 0.08985325694084167,
+        "kind": "image"
+      },
+      {
+        "chunk_id": "dataset:small_boxes",
+        "score": 0.08926067501306534,
+        "kind": "small_boxes"
+      },
+      {
+        "chunk_id": "image:25",
+        "score": 0.08421728014945984,
+        "kind": "image"
+      }
+    ],
+    "usage": {}
+  },
+  {
+    "question": "Is the dataset class-imbalanced, and how does that affect interpretation of the training results?",
+    "answer": "[OFFLINE FALLBACK MODE - no LLM was called. Tools were selected by keyword rules and the Python tools really executed; the text below is templated, not model reasoning.]\n\n## Computed facts (deterministic tool outputs)\n- Class counts: {\"robot_arm\": 45, \"gripper\": 44}; majority `robot_arm`, minority `gripper`; imbalance ratio 1.0227272727272727; heuristic label `balanced` (ratio <1.5 balanced; <3 mild; <10 moderate; >=10 severe (rule of thumb, not a statistical test)).\n- 10 epochs recorded; best checkpoint epoch 10 selected by val_loss (val_loss 2.6949384212493896, val_ap50 0.08415841584158416, val_ap 0.008415841584158416).\n- Last epoch 10: train_loss 1.7991812879388982, val_loss 2.6949384212493896.\n- Heuristic flags: {\"val_loss_last_vs_best_ratio\": 1.0, \"train_loss_decreased_since_best\": false, \"possible_overfitting_signal\": false, \"train_val_loss_gap_at_last_epoch\": 0.8957571333104914, \"flag_rule\": \"possible_overfitting_signal = best epoch is before the last epoch AND last val_loss > 1.05x best AND train_loss fell since the best epoch (heuristic, not proof)\"}\n- Held-out test (best checkpoint): AP50 0.02805280528052805, AP 0.002805280528052805, per-class AP50 {\"robot_arm\": 0.0, \"gripper\": 0.0561056105610561}.\n\n## Retrieved evidence\n- [dataset:class_balance] (score 0.12): Class balance: counts {\"robot_arm\": 45, \"gripper\": 44}, frequencies {\"robot_arm\": 0.5056, \"gripper\": 0.4944}. Majority class robot_arm, minority class gripper, \n- [training:summary] (score 0.10): Training summary: 10 of 10 epochs completed. Best checkpoint at epoch 10 selected by val_loss (min) with value 2.695. Early stopping triggered: False (patience \n- [training:test] (score 0.07): Held-out test metrics for the best checkpoint: loss 2.383, AP50 0.02805, AP 0.002805, per-class AP50 {\"robot_arm\": 0.0, \"gripper\": 0.0561056105610561}.\n- [dataset:summary] (score 0.07): Dataset summary (COCO file): 30 images, 89 annotations, 2 categories. Annotations per category: {\"robot_arm\": 45, \"gripper\": 44}. 0 images have no annotations. \n- [image:27] (score 0.04): Image 27 file images/synthetic0026.jpg size 224x160 px, licence CC0 (synthetic), author \"procedural generator\". 2 annotation(s): ann 80: robot_arm bbox[x,y,w,h]\n\n## Interpretation (rule-based text, not LLM reasoning)\n- Class counts are close to balanced, so imbalance alone should not distort class-averaged metrics.\n- Metrics measure agreement with zero-shot pseudo-labels on a small split; small splits make AP estimates high-variance.",
+    "mode": "offline-fallback",
+    "provider": "offline-fallback",
+    "model": "none (rule-based)",
+    "stop_reason": "answered",
+    "iterations": 2,
+    "tool_trace": [
+      {
+        "name": "analyze_class_imbalance",
+        "arguments": {},
+        "ok": true,
+        "error": null,
+        "duration_ms": 0.18989999807672575,
+        "result": {
+          "num_annotations": 89,
+          "class_counts": {
+            "robot_arm": 45,
+            "gripper": 44
+          },
+          "class_frequencies": {
+            "robot_arm": 0.5056,
+            "gripper": 0.4944
+          },
+          "images_containing_class": {
+            "robot_arm": 30,
+            "gripper": 29
+          },
+          "majority_class": "robot_arm",
+          "minority_class": "gripper",
+          "imbalance_ratio_max_over_min": 1.0227272727272727,
+          "per_class_ratio_to_majority": {
+            "robot_arm": 1.0,
+            "gripper": 1.023
+          },
+          "normalized_entropy": 0.9999089303498085,
+          "classes_with_zero_annotations": [],
+          "heuristic_label": "balanced",
+          "heuristic_label_rule": "ratio <1.5 balanced; <3 mild; <10 moderate; >=10 severe (rule of thumb, not a statistical test)"
+        }
+      },
+      {
+        "name": "get_training_metrics",
+        "arguments": {},
+        "ok": true,
+        "error": null,
+        "duration_ms": 5.878299998585135,
+        "result": {
+          "available": true,
+          "task": "single-stage anchor-free object detection (CenterNet-style: heatmap + wh + offset heads)",
+          "epochs_completed": 10,
+          "epochs_requested": 10,
+          "early_stopping": {
+            "enabled": true,
+            "patience": 12,
+            "min_delta": 0.001,
+            "triggered": false,
+            "stopped_epoch": null
+          },
+          "best_checkpoint": {
+            "epoch": 10,
+            "selected_by": "val_loss",
+            "mode": "min",
+            "metrics_at_best_epoch": {
+              "epoch": 10,
+              "lr": 0.00011804082077660514,
+              "train_loss": 1.7991812879388982,
+              "train_hm_loss": 1.3358134464784102,
+              "train_wh_loss": 2.434950893575495,
+              "train_off_loss": 0.2198727225715464,
+              "grad_norm": 4.781797885894775,
+              "val_loss": 2.6949384212493896,
+              "val_hm_loss": 1.905009150505066,
+              "val_wh_loss": 4.691962242126465,
+              "val_off_loss": 0.3207330107688904,
+              "val_ap50": 0.08415841584158416,
+              "val_ap": 0.008415841584158416,
+              "val_ap50_per_class": {
+                "robot_arm": 0.16831683168316833,
+                "gripper": 0.0
+              },
+              "epoch_time_s": 1.0405678749084473
+            },
+            "checkpoint_file": "best.pt"
+          },
+          "last_epoch": {
+            "epoch": 10,
+            "lr": 0.00011804082077660514,
+            "train_loss": 1.7991812879388982,
+            "train_hm_loss": 1.3358134464784102,
+            "train_wh_loss": 2.434950893575495,
+            "train_off_loss": 0.2198727225715464,
+            "grad_norm": 4.781797885894775,
+            "val_loss": 2.6949384212493896,
+            "val_hm_loss": 1.905009150505066,
+            "val_wh_loss": 4.691962242126465,
+            "val_off_loss": 0.3207330107688904,
+            "val_ap50": 0.08415841584158416,
+            "val_ap": 0.008415841584158416,
+            "val_ap50_per_class": {
+              "robot_arm": 0.16831683168316833,
+              "gripper": 0.0
+            },
+            "epoch_time_s": 1.0405678749084473
+          },
+          "trends": {
+            "train_loss": {
+              "first": 3.499280951239846,
+              "last": 1.7991812879388982,
+              "min": 1.7991812879388982,
+              "max": 3.499280951239846,
+              "epoch_of_min": 10,
+              "slope_per_epoch_last_5": -0.10416509888388917,
+              "relative_change_first_to_last": -0.4858425736574761
+            },
+            "val_loss": {
+              "first": 3.602529764175415,
+              "last": 2.6949384212493896,
+              "min": 2.6949384212493896,
+              "max": 3.602529764175415,
+              "epoch_of_min": 10,
+              "slope_per_epoch_last_5": -0.12940993309021043,
+              "relative_change_first_to_last": -0.25193167089176416
+            },
+            "val_ap50": {
+              "first": 0.0,
+              "last": 0.08415841584158416,
+              "min": 0.0,
+              "max": 0.08415841584158416,
+              "epoch_of_min": 1,
+              "slope_per_epoch_last_5": 0.025247524752475253,
+              "relative_change_first_to_last": null
+            },
+            "val_ap": {
+              "first": 0.0,
+              "last": 0.008415841584158416,
+              "min": 0.0,
+              "max": 0.008415841584158416,
+              "epoch_of_min": 1,
+              "slope_per_epoch_last_5": 0.0025247524752475253,
+              "relative_change_first_to_last": null
+            }
+          },
+          "heuristic_flags": {
+            "val_loss_last_vs_best_ratio": 1.0,
+            "train_loss_decreased_since_best": false,
+            "possible_overfitting_signal": false,
+            "train_val_loss_gap_at_last_epoch": 0.8957571333104914,
+            "flag_rule": "possible_overfitting_signal = best epoch is before the last epoch AND last val_loss > 1.05x best AND train_loss fell since the best epoch (heuristic, not proof)"
+          },
+          "test_metrics_best_checkpoint": {
+            "loss": 2.3828063011169434,
+            "hm": 1.6749420166015625,
+            "wh": 3.859475612640381,
+            "off": 0.3219168484210968,
+            "ap50": 0.02805280528052805,
+            "ap": 0.002805280528052805,
+            "per_class_ap50": {
+              "robot_arm": 0.0,
+              "gripper": 0.0561056105610561
+            }
+          },
+          "split_sizes": {
+            "train": 22,
+            "val": 4,
+            "test": 4
+          },
+          "model_parameters": 4008646,
+          "metric_notes": "AP is COCO-style (101-point) in the letterboxed network-input frame. Labels are zero-shot pseudo-labels, so AP measures agreement with Grounding DINO/SAM output, not human ground truth."
+        }
+      }
+    ],
+    "retrieved": [
+      {
+        "chunk_id": "dataset:class_balance",
+        "score": 0.11666189134120941,
+        "kind": "class_balance"
+      },
+      {
+        "chunk_id": "training:summary",
+        "score": 0.09643985331058502,
+        "kind": "summary"
+      },
+      {
+        "chunk_id": "training:test",
+        "score": 0.07299251854419708,
+        "kind": "test"
+      },
+      {
+        "chunk_id": "dataset:summary",
+        "score": 0.07230736315250397,
+        "kind": "summary"
+      },
+      {
+        "chunk_id": "image:27",
+        "score": 0.04114506021142006,
+        "kind": "image"
+      },
+      {
+        "chunk_id": "training:config",
+        "score": 0.03700362890958786,
+        "kind": "config"
+      }
+    ],
+    "usage": {}
+  },
+  {
+    "question": "Which epoch is the final best checkpoint, and what does the training log entry for that epoch show? Cite the log entry.",
+    "answer": "[OFFLINE FALLBACK MODE - no LLM was called. Tools were selected by keyword rules and the Python tools really executed; the text below is templated, not model reasoning.]\n\n## Computed facts (deterministic tool outputs)\n- 10 epochs recorded; best checkpoint epoch 10 selected by val_loss (val_loss 2.6949384212493896, val_ap50 0.08415841584158416, val_ap 0.008415841584158416).\n- Last epoch 10: train_loss 1.7991812879388982, val_loss 2.6949384212493896.\n- Heuristic flags: {\"val_loss_last_vs_best_ratio\": 1.0, \"train_loss_decreased_since_best\": false, \"possible_overfitting_signal\": false, \"train_val_loss_gap_at_last_epoch\": 0.8957571333104914, \"flag_rule\": \"possible_overfitting_signal = best epoch is before the last epoch AND last val_loss > 1.05x best AND train_loss fell since the best epoch (heuristic, not proof)\"}\n- Held-out test (best checkpoint): AP50 0.02805280528052805, AP 0.002805280528052805, per-class AP50 {\"robot_arm\": 0.0, \"gripper\": 0.0561056105610561}.\n\n## Retrieved evidence\n- [training:epoch:10] (score 0.14): Training log epoch 10 (FINAL best checkpoint, saved as best.pt): lr=0.000118, train_loss=1.799, train_hm_loss=1.336, train_wh_loss=2.435, train_off_loss=0.2199,\n- [training:summary] (score 0.12): Training summary: 10 of 10 epochs completed. Best checkpoint at epoch 10 selected by val_loss (min) with value 2.695. Early stopping triggered: False (patience \n- [training:epoch:6] (score 0.11): Training log epoch 6 (new best so far at this epoch, later superseded): lr=0.001627, train_loss=2.195, train_hm_loss=1.601, train_wh_loss=3.421, train_off_loss=\n- [training:epoch:4] (score 0.10): Training log epoch 4 (new best so far at this epoch, later superseded): lr=0.002, train_loss=2.628, train_hm_loss=1.914, train_wh_loss=4.299, train_off_loss=0.2\n- [training:epoch:8] (score 0.09): Training log epoch 8 (new best so far at this epoch, later superseded): lr=0.0007897, train_loss=2.031, train_hm_loss=1.483, train_wh_loss=2.924, train_off_loss\n\n## Interpretation (rule-based text, not LLM reasoning)\n- Metrics measure agreement with zero-shot pseudo-labels on a small split; small splits make AP estimates high-variance.",
+    "mode": "offline-fallback",
+    "provider": "offline-fallback",
+    "model": "none (rule-based)",
+    "stop_reason": "answered",
+    "iterations": 2,
+    "tool_trace": [
+      {
+        "name": "get_training_metrics",
+        "arguments": {},
+        "ok": true,
+        "error": null,
+        "duration_ms": 0.7515999968745746,
+        "result": {
+          "available": true,
+          "task": "single-stage anchor-free object detection (CenterNet-style: heatmap + wh + offset heads)",
+          "epochs_completed": 10,
+          "epochs_requested": 10,
+          "early_stopping": {
+            "enabled": true,
+            "patience": 12,
+            "min_delta": 0.001,
+            "triggered": false,
+            "stopped_epoch": null
+          },
+          "best_checkpoint": {
+            "epoch": 10,
+            "selected_by": "val_loss",
+            "mode": "min",
+            "metrics_at_best_epoch": {
+              "epoch": 10,
+              "lr": 0.00011804082077660514,
+              "train_loss": 1.7991812879388982,
+              "train_hm_loss": 1.3358134464784102,
+              "train_wh_loss": 2.434950893575495,
+              "train_off_loss": 0.2198727225715464,
+              "grad_norm": 4.781797885894775,
+              "val_loss": 2.6949384212493896,
+              "val_hm_loss": 1.905009150505066,
+              "val_wh_loss": 4.691962242126465,
+              "val_off_loss": 0.3207330107688904,
+              "val_ap50": 0.08415841584158416,
+              "val_ap": 0.008415841584158416,
+              "val_ap50_per_class": {
+                "robot_arm": 0.16831683168316833,
+                "gripper": 0.0
+              },
+              "epoch_time_s": 1.0405678749084473
+            },
+            "checkpoint_file": "best.pt"
+          },
+          "last_epoch": {
+            "epoch": 10,
+            "lr": 0.00011804082077660514,
+            "train_loss": 1.7991812879388982,
+            "train_hm_loss": 1.3358134464784102,
+            "train_wh_loss": 2.434950893575495,
+            "train_off_loss": 0.2198727225715464,
+            "grad_norm": 4.781797885894775,
+            "val_loss": 2.6949384212493896,
+            "val_hm_loss": 1.905009150505066,
+            "val_wh_loss": 4.691962242126465,
+            "val_off_loss": 0.3207330107688904,
+            "val_ap50": 0.08415841584158416,
+            "val_ap": 0.008415841584158416,
+            "val_ap50_per_class": {
+              "robot_arm": 0.16831683168316833,
+              "gripper": 0.0
+            },
+            "epoch_time_s": 1.0405678749084473
+          },
+          "trends": {
+            "train_loss": {
+              "first": 3.499280951239846,
+              "last": 1.7991812879388982,
+              "min": 1.7991812879388982,
+              "max": 3.499280951239846,
+              "epoch_of_min": 10,
+              "slope_per_epoch_last_5": -0.10416509888388917,
+              "relative_change_first_to_last": -0.4858425736574761
+            },
+            "val_loss": {
+              "first": 3.602529764175415,
+              "last": 2.6949384212493896,
+              "min": 2.6949384212493896,
+              "max": 3.602529764175415,
+              "epoch_of_min": 10,
+              "slope_per_epoch_last_5": -0.12940993309021043,
+              "relative_change_first_to_last": -0.25193167089176416
+            },
+            "val_ap50": {
+              "first": 0.0,
+              "last": 0.08415841584158416,
+              "min": 0.0,
+              "max": 0.08415841584158416,
+              "epoch_of_min": 1,
+              "slope_per_epoch_last_5": 0.025247524752475253,
+              "relative_change_first_to_last": null
+            },
+            "val_ap": {
+              "first": 0.0,
+              "last": 0.008415841584158416,
+              "min": 0.0,
+              "max": 0.008415841584158416,
+              "epoch_of_min": 1,
+              "slope_per_epoch_last_5": 0.0025247524752475253,
+              "relative_change_first_to_last": null
+            }
+          },
+          "heuristic_flags": {
+            "val_loss_last_vs_best_ratio": 1.0,
+            "train_loss_decreased_since_best": false,
+            "possible_overfitting_signal": false,
+            "train_val_loss_gap_at_last_epoch": 0.8957571333104914,
+            "flag_rule": "possible_overfitting_signal = best epoch is before the last epoch AND last val_loss > 1.05x best AND train_loss fell since the best epoch (heuristic, not proof)"
+          },
+          "test_metrics_best_checkpoint": {
+            "loss": 2.3828063011169434,
+            "hm": 1.6749420166015625,
+            "wh": 3.859475612640381,
+            "off": 0.3219168484210968,
+            "ap50": 0.02805280528052805,
+            "ap": 0.002805280528052805,
+            "per_class_ap50": {
+              "robot_arm": 0.0,
+              "gripper": 0.0561056105610561
+            }
+          },
+          "split_sizes": {
+            "train": 22,
+            "val": 4,
+            "test": 4
+          },
+          "model_parameters": 4008646,
+          "metric_notes": "AP is COCO-style (101-point) in the letterboxed network-input frame. Labels are zero-shot pseudo-labels, so AP measures agreement with Grounding DINO/SAM output, not human ground truth."
+        }
+      }
+    ],
+    "retrieved": [
+      {
+        "chunk_id": "training:epoch:10",
+        "score": 0.1354709267616272,
+        "kind": "epoch"
+      },
+      {
+        "chunk_id": "training:summary",
+        "score": 0.12490331381559372,
+        "kind": "summary"
+      },
+      {
+        "chunk_id": "training:epoch:6",
+        "score": 0.10847450792789459,
+        "kind": "epoch"
+      },
+      {
+        "chunk_id": "training:epoch:4",
+        "score": 0.09604967385530472,
+        "kind": "epoch"
+      },
+      {
+        "chunk_id": "training:epoch:8",
+        "score": 0.08664632588624954,
+        "kind": "epoch"
+      },
+      {
+        "chunk_id": "training:epoch:3",
+        "score": 0.08660215139389038,
+        "kind": "epoch"
+      }
+    ],
+    "usage": {}
+  }
+]

@@ -1,0 +1,39 @@
+# Secrets / local config
+.env
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Generated data (reproduce with the commands in README.md)
+data/raw/*
+data/processed/*
+data/annotations/*
+data/synthetic/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/annotations/.gitkeep
+
+# Run artifacts: checkpoints, tensorboard events, vector indexes, logs
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/demo_outputs/
+logs/*
+!logs/.gitkeep
+runs/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

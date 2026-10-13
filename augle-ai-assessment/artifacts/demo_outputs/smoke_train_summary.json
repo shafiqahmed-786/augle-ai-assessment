@@ -1,0 +1,94 @@
+{
+  "WARNING": "SYNTHETIC smoke-test data; not results on the real dataset",
+  "dataset": {
+    "coco_path": "data/synthetic/instances.json",
+    "coco_sha256": "2f158946f29d40750848b6c454276e3a7d7525ee505f153bcae884b2ee7fa589",
+    "num_images": 30,
+    "num_annotations": 89,
+    "split_sizes": {
+      "train": 22,
+      "val": 4,
+      "test": 4
+    },
+    "split_seed": 42
+  },
+  "model": {
+    "name": "AugleNet",
+    "trainable_parameters": 4008646,
+    "classes": [
+      "robot_arm",
+      "gripper"
+    ]
+  },
+  "best": {
+    "epoch": 10,
+    "monitor": "val_loss",
+    "mode": "min",
+    "value": 2.6949384212493896,
+    "checkpoint": "best.pt"
+  },
+  "early_stopping": {
+    "enabled": true,
+    "patience": 12,
+    "min_delta": 0.001,
+    "triggered": false,
+    "stopped_epoch": null
+  },
+  "epochs_completed": 10,
+  "test": {
+    "loss": 2.3828063011169434,
+    "hm": 1.6749420166015625,
+    "wh": 3.859475612640381,
+    "off": 0.3219168484210968,
+    "ap50": 0.02805280528052805,
+    "ap": 0.002805280528052805,
+    "per_class_ap50": {
+      "robot_arm": 0.0,
+      "gripper": 0.0561056105610561
+    }
+  },
+  "history_first_last": [
+    {
+      "epoch": 1,
+      "lr": 0.0002,
+      "train_loss": 3.499280951239846,
+      "train_hm_loss": 2.580792036923495,
+      "train_wh_loss": 5.347364208915017,
+      "train_off_loss": 0.3837524381550876,
+      "grad_norm": 5.610030968983968,
+      "val_loss": 3.602529764175415,
+      "val_hm_loss": 2.6484222412109375,
+      "val_wh_loss": 5.6108598709106445,
+      "val_off_loss": 0.3930215835571289,
+      "val_ap50": 0.0,
+      "val_ap": 0.0,
+      "val_ap50_per_class": {
+        "robot_arm": 0.0,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 0.9737327098846436,
+      "is_best": true
+    },
+    {
+      "epoch": 10,
+      "lr": 0.00011804082077660514,
+      "train_loss": 1.7991812879388982,
+      "train_hm_loss": 1.3358134464784102,
+      "train_wh_loss": 2.434950893575495,
+      "train_off_loss": 0.2198727225715464,
+      "grad_norm": 4.781797885894775,
+      "val_loss": 2.6949384212493896,
+      "val_hm_loss": 1.905009150505066,
+      "val_wh_loss": 4.691962242126465,
+      "val_off_loss": 0.3207330107688904,
+      "val_ap50": 0.08415841584158416,
+      "val_ap": 0.008415841584158416,
+      "val_ap50_per_class": {
+        "robot_arm": 0.16831683168316833,
+        "gripper": 0.0
+      },
+      "epoch_time_s": 1.0405678749084473,
+      "is_best": true
+    }
+  ]
+}
